@@ -1,6 +1,6 @@
-# Enterprise Team Management System
+# 🚀 Team Management System
 
-A modern team management system with role-based access control, email invitations, and differentiated admin/member experiences.
+A complete team management platform with invitation system, built with Next.js, FastAPI, and SQLite. Features role-based access control, email invitations, and real-time member management.
 
 ## Architecture
 
@@ -42,25 +42,37 @@ cd backend
 alembic upgrade head
 ```
 
-## Features
+## ✨ Features
 
-### Core Features
-- User authentication and authorization
+### 🔐 Authentication & Security
+- JWT-based authentication with automatic token refresh
 - Role-based access control (Admin/Member)
-- Email-based team invitations
-- Team member management
-- Activity logging and audit trails
+- Secure invitation token system
+- Input validation and sanitization
 
-### Admin Features
-- Send team invitations
-- Manage member roles
-- View team analytics
-- Remove team members
+### 📧 Invitation System
+- Email invitations with secure token-based acceptance
+- Custom invitation acceptance page with registration
+- Automatic team member onboarding
+- Built-in invitation testing tools
 
-### Member Features
-- View team information
-- Access member dashboard
-- Update profile information
+### 👥 Team Management
+- Real-time member list updates
+- Role management (promote/demote members)
+- Member removal capabilities
+- Pending invitation tracking
+
+### 📊 Dashboard Features
+- Role-based dashboard views
+- Team statistics and member counts
+- API connectivity testing
+- Invitation workflow testing tools
+
+### 🛠️ Developer Tools
+- Built-in API tester for debugging
+- Invitation workflow tester
+- Real-time error handling and feedback
+- Comprehensive logging
 
 ## Security
 
