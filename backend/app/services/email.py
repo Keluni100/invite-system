@@ -170,17 +170,17 @@ class EmailService:
         invitation_link: str,
         role: str
     ) -> tuple[bool, Optional[str]]:
-        """Send a team invitation email"""
+        """Send a mehram check"""
         
-        subject = f"You're invited to join {team_name}!"
+        subject = f"You've Been Registered As A Mehram{team_name}!"
         
         # Text version
         text_content = f"""
-Hi there!
+Assalaamu Alayka Wa Rahmatullahi Wa Baraktu!
 
-{inviter_name} has invited you to join the "{team_name}" team as a {role}.
+{inviter_name} has declared you as her mehram. She is inviting you to supervise her activities as she seeks marridge.
 
-To accept this invitation and create your account, click the link below:
+To accept this invitation, swear by Allah (swt) you are indeed her mehram. Then create your account, click the link below:
 {invitation_link}
 
 This invitation will expire in 7 days.

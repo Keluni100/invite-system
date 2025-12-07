@@ -36,7 +36,7 @@ class Settings(BaseSettings):
         return [origin.strip() for origin in self.allowed_origins.split(",")]
     
     class Config:
-        env_file = "/Users/spark/Documents/GitHub/invite-team/backend/.env"
+        env_file = "C:\\Users\\Dell\\take2\\invite-system\\backend\\.env.local"
 
 
 settings = Settings()

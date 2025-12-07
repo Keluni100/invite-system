@@ -92,11 +92,19 @@ async def test_email_service():
         
         # Test sending to a fake email (won't actually send)
         success, message = await email_service.send_email(
-            to_email="test@example.com",
-            subject="Test Email Configuration",
-            html_content="<p>This is a test email</p>",
-            text_content="This is a test email"
+            to_email={sister_email},
+            subject={sister_subject},
+            html_content={sister_subject},
+            text_content={sister_text},
         )
+        await email_service.send_email(  #you need to make these params right now they fake !
+            to_email={mehram_email},
+            subject={mehram_subject},
+            html_content={mehram_html},
+            text_content={mehram_text},
+        )
+
+
         
         if success:
             print(f"✅ Email service test passed: {message}")
