@@ -22,6 +22,7 @@ def test_smtp_connection():
     smtp_port = int(os.getenv('SMTP_PORT', 587))
     smtp_username = os.getenv('SMTP_USERNAME', '')
     smtp_password = os.getenv('SMTP_PASSWORD', '')
+    smtp_from_name = os.getenv('SMTP_FROM_NAME', 'Maktoobayn')
     
     print("🔧 Testing Email Configuration")
     print("=" * 40)
@@ -29,16 +30,23 @@ def test_smtp_connection():
     print(f"🔌 Port: {smtp_port}")
     print(f"👤 Username: {smtp_username}")
     print(f"🔐 Password: {'*' * len(smtp_password) if smtp_password else 'Not set'}")
+    print(f"    Name: {smtp_from_name} or 'Not set (will use email only)'")
     print()
     
     if smtp_host == 'localhost':
         print("🛠 Development mode detected - no real email testing")
+        if not smtp_from_name:
+            print("⚠️ SMTP_FROM_NAME not set in development mode")
         return True
     
     if not smtp_username or not smtp_password:
         print("❌ SMTP credentials not configured")
         print("💡 Run ./setup-email.sh to configure email provider")
         return False
+
+    if not smtp_from_name:
+        print("⚠️ SMTP_FROM_NAME not set - emails will show only email address")
+        print("💡 Consider setting SMTP_FROM_NAME in .env.local")
     
     try:
         print("🔄 Testing SMTP connection...")
@@ -89,19 +97,27 @@ async def test_email_service():
         from app.services.email import email_service
         
         print("\n🧪 Testing Email Service...")
-        
+        sister_email = "sister@example.com"
+    sister_subject = "Sister Verification"
+    sister_html = "<p>Verify as sister</p>"
+    sister_text = "Verify as sister"
+    
+    mehram_email = "mehram@example.com"  
+    mehram_subject = "Mehram Verification"
+    mehram_html = "<p>Verify as mehram</p>"
+    mehram_text = "Verify as mehram"
         # Test sending to a fake email (won't actually send)
         success, message = await email_service.send_email(
-            to_email={sister_email},
-            subject={sister_subject},
-            html_content={sister_subject},
-            text_content={sister_text},
+            to_email=sister_email,
+            subject=sister_subject,
+            html_content=sister_subject,
+            text_content=sister_text,
         )
         await email_service.send_email(  #you need to make these params right now they fake !
-            to_email={mehram_email},
-            subject={mehram_subject},
-            html_content={mehram_html},
-            text_content={mehram_text},
+            to_email=mehram_email,
+            subject=mehram_subject,
+            html_content=mehram_html,
+            text_content=mehram_text,
         )
 
 

@@ -22,11 +22,11 @@ class Settings(BaseSettings):
     
     # Email
     smtp_host: str = "localhost"
-    smtp_port: int = 1025
+    smtp_port: int = 578
     smtp_username: str = ""
     smtp_password: str = ""
-    smtp_from_email: str = "noreply@teammanagement.local"
-    smtp_from_name: str = "Team Management System"
+    smtp_from_email: str = "kelunipaz100@gmail.com"
+    smtp_from_name: str = "Maktoobayn"
     
     # Rate Limiting
     redis_url: str = "redis://localhost:6379/0"
@@ -37,6 +37,6 @@ class Settings(BaseSettings):
     
     class Config:
         env_file = "C:\\Users\\Dell\\take2\\invite-system\\backend\\.env.local"
-
+        extra = "ignore"
 
 settings = Settings()

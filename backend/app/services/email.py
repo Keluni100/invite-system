@@ -165,10 +165,8 @@ class EmailService:
     async def send_team_invitation(
         self, 
         to_email: str, 
-        inviter_name: str, 
-        team_name: str, 
+        sister_name: str, 
         invitation_link: str,
-        role: str
     ) -> tuple[bool, Optional[str]]:
         """Send a mehram check"""
         
@@ -178,7 +176,7 @@ class EmailService:
         text_content = f"""
 Assalaamu Alayka Wa Rahmatullahi Wa Baraktu!
 
-{inviter_name} has declared you as her mehram. She is inviting you to supervise her activities as she seeks marridge.
+{sister_name} has declared you as her mehram. She is inviting you to supervise her activities as she seeks marridge.
 
 To accept this invitation, swear by Allah (swt) you are indeed her mehram. Then create your account, click the link below:
 {invitation_link}
@@ -223,9 +221,10 @@ Team Management System
         <div class="content">
             <h2>Join {team_name}</h2>
             <p>Hi there!</p>
-            <p><strong>{inviter_name}</strong> has invited you to join the <strong>"{team_name}"</strong> team as a <strong>{role}</strong>.</p>
+            <p><strong>{sister_name}</strong> has invited you to to supervise her activities as she seeks marridge.
+ <strong>" marridge."</strong> as a <strong>mehram</strong>.</p>
             
-            <p>To accept this invitation and create your account, click the button below:</p>
+            <p>To accept this responsability and create your account, click the button below:</p>
             
             <a href="{invitation_link}" class="button">Accept Invitation</a>
             
@@ -247,6 +246,132 @@ Team Management System
         
         success, message = await self.send_email(to_email, subject, html_content, text_content)
         return success, message
+async def send_sister_verification(
+    self,
+    to_email: str,
+    sister_name: str,
+    guardian_name: str,
+    verification_link: str,
+    expiry_days: int = 7
+) -> tuple[bool, Optional[str]]:
+    """Send verification email to sister"""
+    
+    subject = f"Assalamu Alayke {sister_name} - Account Verification"
+    
+    # Text version
+    text_content = f"""
+Assalamu Alayke Wa Rahmatullahi Wa Barakatuhu {sister_name},
 
+You have initiated account creation for yourself as part of our marriage system.
+
+To verify your email address and activate your account, please click the link below:
+{verification_link_sis}
+
+Please complete verification within {expiry_days} days.
+
+Important Notes:
+1. This verification confirms your email address
+2. Your guardian ({guardian_name}) has also been sent an email to verify separately
+3. Both verifications are required for account activation
+
+If you did not expect this email or have any concerns, please contact support immediately.
+
+Barakallahu Feeke,
+The Marriage Supervision System
+    """
+    
+    # HTML version
+    html_content = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sister Account Verification</title>
+    <style>
+        .container {{ max-width: 600px; margin: 0 auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }}
+        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }}
+        .salam {{ font-size: 24px; margin-bottom: 10px; }}
+        .content {{ padding: 30px; background-color: #f9fafb; }}
+        .button {{ 
+            display: inline-block; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 14px 28px; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }}
+        .important {{ 
+            background-color: #fff3cd; 
+            border-left: 4px solid #ffc107; 
+            padding: 15px; 
+            margin: 20px 0;
+            border-radius: 4px;
+        }}
+        .footer {{ padding: 20px; text-align: center; color: #6b7280; font-size: 14px; background-color: #f1f5f9; border-radius: 0 0 10px 10px; }}
+        .arabic {{ font-family: 'Traditional Arabic', 'Lateef', serif; direction: rtl; text-align: right; margin: 10px 0; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="salam">السلام عليكم ورحمة الله وبركاته</div>
+            <h1>Account Verification</h1>
+        </div>
+        
+        <div class="content">
+            <h2>Assalamu Alaikum {sister_name},</h2>
+            
+            <p>Your guardian <strong>{guardian_name}</strong> has initiated account creation for you in the Marriage Supervision System.</p>
+            
+            <p class="arabic">بارك الله فيك، الرجاء تأكيد بريدك الإلكتروني</p>
+            
+            <p><strong>Step 1:</strong> Verify your email address by clicking the button below:</p>
+            
+            <a href="{verification_link}" class="button">
+                ✅ Verify My Email Address
+            </a>
+            
+            <p>Or copy this link:<br>
+            <code style="word-break: break-all; color: #4f46e5;">{verification_link}</code></p>
+            
+            <div class="important">
+                <h3>📋 Important Information:</h3>
+                <ol>
+                    <li>This verifies <strong>your email address only</strong></li>
+                    <li>Your guardian will verify <strong>separately</strong></li>
+                    <li><strong>Both verifications</strong> are required for account activation</li>
+                    <li>Link expires in <strong>{expiry_days} days</strong></li>
+                </ol>
+            </div>
+            
+            <p><strong>Security Note:</strong> If you did not expect this email or have concerns about this request, please contact support immediately.</p>
+            
+            <p class="arabic">جعل الله هذا في ميزان حسناتكم</p>
+        </div>
+        
+        <div class="footer">
+            <p>Marriage Supervision System | Protecting with Islamic Guidelines</p>
+            <p>This is an automated message. Please do not reply to this email.</p>
+            <p>For support, please contact your system administrator.</p>
+        </div>
+    </div>
+</body>
+</html>
+    """
+    
+    # Use the EXISTING send_email method
+    success, message = await self.send_email(
+        to_email=to_email,
+        subject=subject,
+        html_content=html_content,
+        text_content=text_content
+    )
+    
+    return success, message
 # Global email service instance
 email_service = EmailService()
